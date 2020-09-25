@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import CProduct from './CProduct'
-import { getProducts, getProductsByLabel } from '../services/product'
-
+import { getProductsByLabel } from '../services/product' 
 
 export default function CCLabel({label}) {
+ 
 
     const [productos, setProductos] = useState([]);
 
@@ -19,14 +19,14 @@ export default function CCLabel({label}) {
     return (
         <div>
             <div>
-                <h1>{label.labelName}</h1>
+                <h3>{label.labelName}</h3>
             </div>
             <div className="row">
-        {
-            productos.map((prod, i) => (
-                <CProduct product={prod} key={i} />
-            ))
-        }
+            {
+                productos.map((prod, i) => (
+                    <CProduct product={prod} key={i} />
+                ))
+            }
             </div>
         </div>
     )

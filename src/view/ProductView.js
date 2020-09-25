@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import CreateProduct from '../components/crud/CreateProduct';
 import ListProduct from '../components/crud/ListProduct';
-import { getProducts, createProduct } from '../services/product';
+import { getProducts } from '../services/product';
+import {Link} from "react-router-dom"
+
 
 
 export default function ProductView() {
@@ -12,24 +14,16 @@ export default function ProductView() {
         let data = await getProducts();
         setProductos(data);
     }  
-
-    const addProduct = async (product) => {
-        console.log("addProduct", product)
-       let data = await createProduct(product);
-       getProduct();
-    }
-
+ 
     useEffect(() => {
         getProduct();
     }, [])
         
     return (
         <div>
-            <h1>Listado de productos</h1>
-            <CreateProduct agregarProducto={addProduct} />
-            
-            <ListProduct  productos={productos} />
-            
+            <h1>Listado de productos</h1>  
+            <Link className="btn btn-primary btn-sm" to={`/createproduct`}>Agregar Producto</Link>
+            <ListProduct  productos={productos}/> 
         </div>
     )
 }

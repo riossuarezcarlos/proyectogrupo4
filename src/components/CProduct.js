@@ -1,19 +1,48 @@
-import React from 'react'
-import { Button } from 'react-bootstrap'
+import React, { useContext, useState } from 'react'
+import { CarritoContext } from '../context/carritoContext'
+import Count from '../components/CCount'
 import Card from 'react-bootstrap/Card'
+import { Link } from 'react-router-dom'
+import Swal from 'sweetalert2'
 import './css/CProduct.css'
 
 export default function CProduct(product) {
+    
+    console.log("pintar Tarjetas", product)
+
+    const {carrito, anadirProducto} = useContext(CarritoContext);
+    const [cantidad, setCantidad] = useState(1)
+
+    const anadirAlCarrito = () => {
+        let productoAnadir = {
+            productId: product.product.id,
+            productName: product.product.productName, 
+            productPrice: product.product.productPrice, 
+            productMark: product.product.productMark, 
+            productImg: product.product.productImg, 
+            productCant: cantidad, 
+        }
+        anadirProducto(productoAnadir);
+
+        Swal.fire({
+            icon: "success",
+            title: "Se añadio el producto",
+            showConfirmButton: false,
+            timer: 2000
+        })
+    }
+
     return (  
         <Card style={{ width: '18rem', margin: '4px' }}>
             
-            <Card.Img variant="top" src={product.product.productImg} className="img" />
+            <Card.Img variant="top" src={product.product.productImg} alt="..." className="img" />
             <div className="card-body">
                 <Card.Title>{product.product.productMark}</Card.Title>
                 <Card.Text>{product.product.productName}</Card.Text>
                 <Card.Text className="price">Precio: {product.product.productPrice}</Card.Text>
-                <Button variant="primary" className="m-2">Ver Detalle</Button>
-                <Button variant="primary">Añadir</Button>
+                <Count cantidadProductos={cantidad} actualizarCantidad={setCantidad}/>
+                <Link className="btn btn-primary btn-sm m-2" to={`/detalle/${product.product.id}`}>Ver Detalle</Link>
+                <button className="btn btn-primary btn-sm" onClick={() => {anadirAlCarrito()}}>Agregar al carrito</button>
             </div>
             </Card> 
     )

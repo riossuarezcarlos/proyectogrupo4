@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import CLabel from './CLabel'
+import React, { useState, useEffect } from 'react';
+import CLabel from './CLabel';
  
-import { getLabels } from '../services/label'
+import { getLabels } from '../services/label';
+ 
 
 export default function CCategory() {
-
+ 
     const [labels, setLabels] = useState([]);
 
     const getLabel = async () => {
