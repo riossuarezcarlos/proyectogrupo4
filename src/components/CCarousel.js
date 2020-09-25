@@ -4,7 +4,7 @@ import './css/CCarousel.css'
 
 export default function CCarousels() {
     return (
-        <div className="CCarousel">
+        <div className="CCarousel" style={{ marginTop: '5rem', marginBottom: '1rem'}}>
             <Carousel>
                 <Carousel.Item interval={1000}>
                     <img
@@ -21,14 +21,14 @@ export default function CCarousels() {
                     <img
                     className="d-block w-100 CCarousel"
                     src="https://picsum.photos/200/300"
-                    alt="Third slide"
+                    alt="Second slide"
                     />
                     <Carousel.Caption>
                     <h3>Second slide label</h3>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                     </Carousel.Caption>
                 </Carousel.Item>
-                <Carousel.Item interval={1200}>
+                <Carousel.Item>
                     <img
                     className="d-block w-100 CCarousel"
                     src="https://picsum.photos/200/300"

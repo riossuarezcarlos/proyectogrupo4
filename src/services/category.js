@@ -1,8 +1,10 @@
-import db from '../FirestoreConfig'
+import fire from '../FirestoreConfig'
  
+const fireDB =  fire.firestore();
+
 const getCategories = async () => {
     let Categories = [];
-    await db.collection("category").get()
+    await fireDB.collection("category").get()
     .then((snapShots) => {
         snapShots.docs.map( (category) => {
             Categories.push({...category.data(), id: category.id});
@@ -13,7 +15,7 @@ const getCategories = async () => {
 }
 
 const createCategory = async (category) => {
-    return await db.collection("category").add(category);
+    return await fireDB.collection("category").add(category);
 }
 
 export { getCategories, createCategory };

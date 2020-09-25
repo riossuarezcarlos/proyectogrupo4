@@ -1,8 +1,10 @@
-import db from '../FirestoreConfig'
+import fire from '../FirestoreConfig'
+ 
+const fireDB =  fire.firestore();
  
 const getLabels = async () => {
     let Labels = [];
-    await db.collection("label").get()
+    await fireDB.collection("label").get()
     .then((snapShots) => {
         snapShots.docs.map( (label) => {
             Labels.push({...label.data(), id: label.id});

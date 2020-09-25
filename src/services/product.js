@@ -1,8 +1,10 @@
-import db from '../FirestoreConfig'
+import fire from '../FirestoreConfig'
+ 
+const fireDB =  fire.firestore();
  
 const getProducts = async () => {
     let products = [];
-    await db.collection("product").get()
+    await fireDB.collection("product").get()
     .then((snapShots) => {
         snapShots.docs.map( (product) => {
             products.push({...product.data(), id: product.id});
@@ -12,9 +14,24 @@ const getProducts = async () => {
 }
 
 
+const getProductbyId = async (productId) => { 
+    let products = [];
+    await fireDB.collection("product").doc(productId).get()
+    .then((snapshot) => {  
+        [snapshot].map((doc) => {
+            products.push({...doc.data(), id: doc.id}); 
+        })        
+    }) 
+    
+    return products;
+}
+
+ 
+
+
 const getProductsByLabel = async (labelCod) => {
     let products = [];
-    await db.collection("product").where("labelId","==",labelCod).get()
+    await fireDB.collection("product").where("labelId","==",labelCod).get()
     .then((snapShots) => {
         snapShots.docs.map( (product) => {
             products.push({...product.data(), id: product.id});
@@ -24,7 +41,7 @@ const getProductsByLabel = async (labelCod) => {
 }
 
 const createProduct = async (product) => {
-    return await db.collection("product").add(product);
+    return await fireDB.collection("product").add(product);
 }
 
-export { getProducts, getProductsByLabel, createProduct };
+export { getProducts, getProductbyId, getProductsByLabel, createProduct };

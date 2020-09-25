@@ -12,11 +12,11 @@ export default function CCount({cantidadProductos, actualizarCantidad}) {
     return (
         <div style={{width: '300px', diplay: 'flex', alignItems: 'center'}}>
             <span className="text-bold">Cantidad</span>
-            <button class="btn tbn-light btn-sm" onClick={() => {disminuirCantidad()}}>
+            <button className="btn tbn-light btn-sm" onClick={() => {disminuirCantidad()}}>
                 <i className="fas fa-minus"></i>
             </button>                        
             <span className="mx-2">{cantidadProductos}</span>
-            <button class="btn tbn-light btn-sm" onClick={() => {actualizarCantidad(cantidadProductos + 1)}}>
+            <button className="btn tbn-light btn-sm" onClick={() => {actualizarCantidad(cantidadProductos + 1)}}>
                 <i className="fas fa-plus"></i>
             </button>            
         </div>

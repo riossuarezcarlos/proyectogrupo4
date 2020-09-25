@@ -7,7 +7,6 @@ const CarritoContextProvider = (props) => {
 
     const anadirProducto =  (producto) => {
         setCarrito([...carrito, producto])
-        console.log("CarritoContext",carrito);
     }
   
     return(

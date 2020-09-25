@@ -1,8 +1,10 @@
-import db from '../FirestoreConfig'
+import fire from '../FirestoreConfig'
+ 
+const fireDB =  fire.firestore();
  
 const getProductTypes = async (subCategoryId) => {
     let ProductTypes = [];
-    await db.collection("producttype").where("subcategoryId","==",subCategoryId).get()
+    await fireDB.collection("producttype").where("subcategoryId","==",subCategoryId).get()
     .then((snapShots) => {
         snapShots.docs.map( (producttype) => {
             ProductTypes.push({...producttype.data(), id: producttype.id});

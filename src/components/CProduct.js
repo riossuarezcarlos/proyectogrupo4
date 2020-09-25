@@ -13,7 +13,8 @@ export default function CProduct(product) {
     const {carrito, anadirProducto} = useContext(CarritoContext);
     const [cantidad, setCantidad] = useState(1)
 
-    const anadirAlCarrito = () => {
+    const anadirAlCarrito = (e) => {
+        e.preventDefault();
         let productoAnadir = {
             productId: product.product.id,
             productName: product.product.productName, 
@@ -22,6 +23,8 @@ export default function CProduct(product) {
             productImg: product.product.productImg, 
             productCant: cantidad, 
         }
+
+        console.log("productoAnadir", productoAnadir)
         anadirProducto(productoAnadir);
 
         Swal.fire({
@@ -33,17 +36,16 @@ export default function CProduct(product) {
     }
 
     return (  
-        <Card style={{ width: '18rem', margin: '4px' }}>
-            
+        <Card style={{ width: '18rem', margin: '4px' }}>    
             <Card.Img variant="top" src={product.product.productImg} alt="..." className="img" />
             <div className="card-body">
                 <Card.Title>{product.product.productMark}</Card.Title>
                 <Card.Text>{product.product.productName}</Card.Text>
                 <Card.Text className="price">Precio: {product.product.productPrice}</Card.Text>
                 <Count cantidadProductos={cantidad} actualizarCantidad={setCantidad}/>
-                <Link className="btn btn-primary btn-sm m-2" to={`/detalle/${product.product.id}`}>Ver Detalle</Link>
-                <button className="btn btn-primary btn-sm" onClick={() => {anadirAlCarrito()}}>Agregar al carrito</button>
+                <Link className="btn btn-primary btn-sm m-2" to={`/productdetail/${product.product.id}`}>Ver Detalle</Link>
+                <button className="btn btn-primary btn-sm" onClick={(e) => {anadirAlCarrito(e)}}>Agregar al carrito</button>
             </div>
-            </Card> 
+        </Card> 
     )
 }

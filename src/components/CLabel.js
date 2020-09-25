@@ -9,7 +9,7 @@ export default function CCLabel({label}) {
 
     const getProducts = async () => {
         let data = await getProductsByLabel(label.id);
-        setProductos(data);
+        setProductos(data); 
     }
 
     useEffect(() => {
