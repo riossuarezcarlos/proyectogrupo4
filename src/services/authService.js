@@ -18,7 +18,7 @@ const ingresar = (email, password) => {
     return new Promise((resolve, reject) => {
         fire.auth().signInWithEmailAndPassword(email, password)
         .then((u) => {
-            resolve(u.ser)
+            resolve(u.user)
         })
         .catch(error => {
             reject(`Error al logear usuario ${error}`);

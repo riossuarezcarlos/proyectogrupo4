@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext,  Fragment} from 'react' 
 import { getProductbyId } from '../services/product' 
 import { CarritoContext } from '../context/carritoContext'
+import CLoading from '../components/CLoading'
 import Count from '../components/CCount'
 import Swal from 'sweetalert2'
 
@@ -13,13 +14,13 @@ export default function DetailView(props) {
      //Estados Local 
     const [miProducto, setMiProducto] = useState([])
     const [cantidad, setCantidad] = useState(1)
+    const [cargando, setCargando] = useState(true)
  
     //Obtener productos
     const getProduct = async () => {
         let productoObtenido = await getProductbyId(productoId);
-        setMiProducto(productoObtenido[0]);
-        
-                  
+        setMiProducto(productoObtenido[0]); 
+        setCargando(false);
     }
 
     const anadirAlCarrito = () => {
@@ -30,6 +31,7 @@ export default function DetailView(props) {
             productMark: miProducto.productMark, 
             productImg: miProducto.productImg, 
             productCant: cantidad, 
+            productTotal: miProducto.productPrice * cantidad
         }
         anadirProducto(productoAnadir);
 
@@ -46,19 +48,29 @@ export default function DetailView(props) {
     }, []);
 
     return ( 
-        <div className="mt-3">
-        <div className="row">
-            <div className="col-12 col-lg-6">
-                <img src={miProducto.productImg} alt="..." className="img-fluid"/>
-            </div>
-            <div className="col-12 col-lg-6">
-                <h1>{miProducto.productMark}</h1>
-                <h1>{miProducto.productName}</h1>
-                <h2>Precio: {miProducto.productPrice}</h2> 
-                <Count cantidadProductos={cantidad} actualizarCantidad={setCantidad}/>
-                <button className="btn btn-primary btn-sm" onClick={() => {anadirAlCarrito()}}>Agregar al carrito</button>
-            </div>
-        </div>
-    </div> 
+        <Fragment>
+            {
+                cargando === true ?
+                ( 
+                        <CLoading/> 
+                ):
+                (
+                    <div style={{marginTop: '5rem', marginBottom: '1rem'}}>
+                    <div className="row">
+                        <div className="col-12 col-lg-6">
+                            <img src={miProducto.productImg} alt="..." className="img-fluid"/>
+                        </div>
+                        <div className="col-12 col-lg-6">
+                            <h1>{miProducto.productMark}</h1>
+                            <h1>{miProducto.productName}</h1>
+                            <h2>Precio: {miProducto.productPrice}</h2> 
+                            <Count cantidadProductos={cantidad} actualizarCantidad={setCantidad}/>
+                            <button className="btn btn-primary btn-sm" onClick={() => {anadirAlCarrito()}}>Agregar al carrito</button>
+                        </div>
+                    </div>
+                </div> 
+                )
+            }
+        </Fragment>   
     )
 }

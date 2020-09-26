@@ -19,9 +19,10 @@ export default function CCLabel({label}) {
     return (
         <div>
             <div>
-                <h3>{label.labelName}</h3>
+                <i className="fas fa-caret-right fa-2x" />
+                <span style={{ color: 'gray', fontSize: '26px', paddingLeft: '20px', fontWeight: 'bolder' }}>{label.labelName}</span>
             </div>
-            <div className="row">
+            <div className="d-flex justify-content-center">
             {
                 productos.map((prod, i) => (
                     <CProduct product={prod} key={i} />

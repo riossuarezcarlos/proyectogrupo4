@@ -13,8 +13,7 @@ export default function LoginView() {
         e.preventDefault();
         ingresar(correo, password)
         .then((rpta) => {
-            setAuthUser(rpta);
-            console.log(rpta);
+            setAuthUser(rpta.uid);  
         })
         .catch(error => {
             console.log(error);

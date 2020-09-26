@@ -8,10 +8,10 @@ import { getSubCategories } from '../../services/subcategory';
 import { getProductTypes } from '../../services/producttype';
 import { getLabels } from '../../services/label';
 import { createProduct } from '../../services/product';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2' 
 
 export default function CreateProduct(props){
- 
+  
 
     const [nombreProducto, setNombreProducto] = useState("");
     const [marcaProducto, setMarcaProducto] = useState("");
@@ -28,8 +28,7 @@ export default function CreateProduct(props){
     const [subCategories, setSubCategories] = useState([]);
     const [productTypes, setProductTypes] = useState([]);
   
-    const AnadirProducto = async () => {    
- 
+    const AnadirProducto = async (e) => {    
         let productoAnadir = {
             labelId: labelProducto,
             productImg: imagenProducto,
@@ -48,6 +47,7 @@ export default function CreateProduct(props){
         
         let data = await createProduct(productoAnadir); 
         window.history.back(); 
+
     }
  
 
@@ -89,9 +89,10 @@ export default function CreateProduct(props){
     return (
 
         <Jumbotron className="mt-4"> 
-            <Form> 
+            <Form>
+                    <h1 className="align-self-center">Agregar un nuevo producto</h1>  
                     <Form.Group>
-                    <Form.Control as="select" onChange={(ev) => {asignarCategoria(ev.target.value)}}>
+                    <Form.Control required as="select" onChange={(ev) => {asignarCategoria(ev.target.value)}}>
                             <option key={0} value={0}>Seleccionar Categoria</option>
                             {
                                 categories.map((elm,i) => (
@@ -100,7 +101,7 @@ export default function CreateProduct(props){
                             }
                     </Form.Control> 
 
-                    <Form.Control as="select" onChange={(ev) => {asignarSubCategoria(ev.target.value)}}>
+                    <Form.Control required as="select" onChange={(ev) => {asignarSubCategoria(ev.target.value)}}>
                             <option key={0} value={0}>Seleccionar Subcategoria</option>
                             {
                                 subCategories.map((elm,i) => (
@@ -109,7 +110,7 @@ export default function CreateProduct(props){
                             }
                     </Form.Control> 
 
-                    <Form.Control as="select" onChange={(ev) => {setTipoProducto(ev.target.value)}}>
+                    <Form.Control required as="select" onChange={(ev) => {setTipoProducto(ev.target.value)}}>
                             <option key={0} value={0}>Seleccionar Tipo de Producto</option>
                             {
                                 productTypes.map((elm,i) => (
@@ -118,7 +119,7 @@ export default function CreateProduct(props){
                             }
                     </Form.Control> 
 
-                    <Form.Control as="select" value={tipoProducto} onChange={(ev) => {setLabelProducto(ev.target.value)}}>
+                    <Form.Control required as="select" value={labelProducto} onChange={(ev) => {setLabelProducto(ev.target.value)}}>
                             <option key={0} value={0}>Seleccionar Etiqueta</option>
                             {
                                 labels.map((elm,i) => (
@@ -128,12 +129,16 @@ export default function CreateProduct(props){
                     </Form.Control> 
 
 
-                    <Form.Control type="text" placeholder="Nombre del producto" value={nombreProducto} onChange={(ev) => {setNombreProducto(ev.target.value)}}/>
-                    <Form.Control type="text" placeholder="Marca del producto" required value={marcaProducto} onChange={(ev) => {setMarcaProducto(ev.target.value)}}/>
-                    <Form.Control type="text" placeholder="Url de la imagem del producto" value={imagenProducto} onChange={(ev) => {setImagenProducto(ev.target.value)}}/>
-                    <Form.Control type="number" placeholder="###.00" value={precioProducto} onChange={(ev) => {setPrecioProducto(ev.target.value)}}/>
-                </Form.Group>
+                    <Form.Control required type="text" placeholder="Nombre del producto" value={nombreProducto} onChange={(ev) => {setNombreProducto(ev.target.value)}}/>
+                    <Form.Control required type="text" placeholder="Marca del producto" required value={marcaProducto} onChange={(ev) => {setMarcaProducto(ev.target.value)}}/>
+                    <Form.Control required type="text" placeholder="Url de la imagem del producto" value={imagenProducto} onChange={(ev) => {setImagenProducto(ev.target.value)}}/>
+                    <Form.Control required type="number" placeholder="###.00" value={precioProducto} onChange={(ev) => {setPrecioProducto(ev.target.value)}}/>
 
+                    <Form.Control.Feedback type="invalid">
+                        Please choose a username.
+                    </Form.Control.Feedback>
+                </Form.Group>
+ 
                 <Button block variant="primary" onClick={() => {AnadirProducto(this)}}>Agregar nuevo producto</Button> 
 
             </Form> 

@@ -4,9 +4,7 @@ import Table from 'react-bootstrap/Table'
 export default function ListProduct(props) {
     return (
         <div>
-
-            <h1>Listado de Productos</h1>
-
+  
             <Table>
                 <thead>
                     <tr>

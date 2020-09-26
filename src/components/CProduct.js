@@ -7,9 +7,7 @@ import Swal from 'sweetalert2'
 import './css/CProduct.css'
 
 export default function CProduct(product) {
-    
-    console.log("pintar Tarjetas", product)
-
+     
     const {carrito, anadirProducto} = useContext(CarritoContext);
     const [cantidad, setCantidad] = useState(1)
 
@@ -22,9 +20,9 @@ export default function CProduct(product) {
             productMark: product.product.productMark, 
             productImg: product.product.productImg, 
             productCant: cantidad, 
+            productTotal: product.product.productPrice * cantidad
         }
-
-        console.log("productoAnadir", productoAnadir)
+ 
         anadirProducto(productoAnadir);
 
         Swal.fire({
@@ -36,7 +34,7 @@ export default function CProduct(product) {
     }
 
     return (  
-        <Card style={{ width: '18rem', margin: '4px' }}>    
+        <Card style={{ width: '17rem', margin: '4px' }}>    
             <Card.Img variant="top" src={product.product.productImg} alt="..." className="img" />
             <div className="card-body">
                 <Card.Title>{product.product.productMark}</Card.Title>
