@@ -8,6 +8,7 @@ import CarritoView from './view/CarritoView'
 import CreateProduct from './components/crud/CreateProduct'
 import LoginView from './view/LoginView'
 import Registerview from './view/RegisterView' 
+import ConfirmationView from './view/ConfirmationView' 
  
 export default function Routes() {  
     return (
@@ -19,6 +20,7 @@ export default function Routes() {
             <Route exac path="/createproduct" component={CreateProduct} />
             <Route exact path="/login" component={LoginView} />
             <Route exact path="/register" component={Registerview} />
+            <Route exact path="/confirmation" component={ConfirmationView} />
             <Route exac path="/car" component={CarritoView} /> 
         </Fragment>
     )

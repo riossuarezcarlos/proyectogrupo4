@@ -92,7 +92,7 @@ export default function CarritoView() {
             </div>
 
             <div className="d-flex justify-content-center">
-                <Link style={{ width: '300px'}} className="btn btn-primary">Continuar</Link>
+                <Link style={{ width: '300px'}} className="btn btn-primary" to="/confirmation">Confirmar Compra</Link>
             </div>
         </div>
     )

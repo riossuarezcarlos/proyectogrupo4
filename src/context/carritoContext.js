@@ -11,13 +11,17 @@ const CarritoContextProvider = (props) => {
 
     const eliminarProducto =  (producto) => { 
         console.log("producto", producto)
-        let carritoTemp =  carrito.filter(prod => prod.productId != producto.productId) 
+        let carritoTemp =  carrito.filter(prod => prod.productId !== producto.productId) 
         console.log("carritoTemp", carritoTemp);
         setCarrito(carritoTemp);
     }
+
+    const limpiarCarrito =  () => { 
+        setCarrito([]);
+    }
   
     return(
-        <CarritoContext.Provider value={{carrito, anadirProducto, eliminarProducto}}>
+        <CarritoContext.Provider value={{carrito, anadirProducto, eliminarProducto, limpiarCarrito}}>
             {props.children}
         </CarritoContext.Provider>
     )
