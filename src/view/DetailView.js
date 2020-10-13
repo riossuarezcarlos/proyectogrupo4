@@ -9,7 +9,7 @@ export default function DetailView(props) {
     //recuperar el Id
     const productoId = props.match.params.id;  
     //context
-    const {carrito, anadirProducto} = useContext(CarritoContext); 
+    const {anadirProducto} = useContext(CarritoContext); 
 
      //Estados Local 
     const [miProducto, setMiProducto] = useState([])

@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react'
-import CProduct from './CProduct'
-import { getProductsByLabel } from '../services/product' 
+import React, { useState, useEffect } from 'react';
+import CProduct from './CProduct';
+import { getProductsByLabel } from '../services/product';
 
 export default function CCLabel({label}) {
  
@@ -14,7 +14,7 @@ export default function CCLabel({label}) {
 
     useEffect(() => {
         getProducts();
-    }, []) 
+    }) 
 
     return (
         <div>
@@ -22,13 +22,15 @@ export default function CCLabel({label}) {
                 <i className="fas fa-caret-right fa-2x" />
                 <span style={{ color: 'gray', fontSize: '26px', paddingLeft: '20px', fontWeight: 'bolder' }}>{label.labelName}</span>
             </div>
-            <div className="d-flex justify-content-center">
+            <div className="row mt-2 d-flex justify-content-center">
             {
                 productos.map((prod, i) => (
-                    <CProduct product={prod} key={i} />
+                    <div className="col-12 col-sm-6 col-lg-3 p-0" key={i}>
+                        <CProduct product={prod}/>
+                    </div>
                 ))
             }
             </div>
         </div>
     )
-}
+} 

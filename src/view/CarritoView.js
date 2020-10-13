@@ -64,9 +64,9 @@ export default function CarritoView() {
                                     <td>{redondear(product.productPrice)}</td>
                                     <td>{product.productCant}</td>
                                     <td>{redondear(product.productTotal)}</td>
-                                    <td> 
-                                        <button className="btn btn-primary btn-sm" onClick={(e) => {eliminarDelCarrito(e, product)}}>
-                                            <i class="fas fa-trash-alt"></i>
+                                    <td>  
+                                        <button className="btn btn-outline-danger btn-sm" onClick={(e) => {eliminarDelCarrito(e, product)}}>
+                                            <i className="fas fa-trash"></i>
                                         </button>
                                     </td>
                                 </tr>

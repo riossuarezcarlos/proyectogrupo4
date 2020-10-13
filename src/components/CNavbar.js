@@ -1,25 +1,29 @@
 import React, {useState, useContext, useEffect, Fragment} from 'react'; 
 import Card from 'react-bootstrap/Card'
-import { Container, Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap'
+import { Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap'
 
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
 import Box from '@material-ui/core/Box';
 
+import {NavSideContext} from '../context/navSideContext';
 import {CarritoContext} from '../context/carritoContext';
 import {AuthContext} from '../context/authContext';
 import {Link} from "react-router-dom"; 
-import './css/CNavbar.css';
-
-
+import './css/CNavbar.css'; 
   
 import { withStyles } from '@material-ui/core/styles'; 
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText'; 
+import ListItemText from '@material-ui/core/ListItemText';   
 
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import clsx from 'clsx'; 
+
+
+import CNavSide from './CNavSide';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
       padding: theme.spacing(2),
     },
   }));
-
+  
   const StyledMenu = withStyles({
     paper: {
       border: '1px solid #d3d4d5',
@@ -51,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
   const StyledMenuItem = withStyles((theme) => ({
     root: {
       '&:focus': {
-        backgroundColor: 'RGB(2, 117, 216)',
+        backgroundColor: 'rgb(2, 117, 216)',
         '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
           color: theme.palette.common.white,
         },
@@ -70,9 +74,11 @@ export default function CNavbar(){
  const [nroProductos, setNroProductos] = useState(0)
  const { carrito } = useContext(CarritoContext); 
  const { user } = useContext(AuthContext); 
+
+ const { Navstate, classesCat, toggleDrawer } = useContext(NavSideContext); 
  
  const ConfigurarCantidadProdCarrito = () =>{
-     if (carrito.length === 0) {
+     if (carrito.length == 0) {
         setCantidadProductos("");     
      }else{
         setCantidadProductos(carrito.length);
@@ -113,37 +119,69 @@ const handleCloseConf = () => {
 
  const open = Boolean(anchorCar);
  const id = open ? 'simple-popover' : undefined;
+   
+  // CategoryMenu 
+   
+    const list = (anchor) => (
+    <div
+        className={clsx(classesCat.list, {
+        [classesCat.fullList]: anchor === 'top' || anchor === 'bottom',
+        })}
+        role="presentation"
+        onClick={toggleDrawer(anchor, true)}
+        onKeyDown={toggleDrawer(anchor, false)}
+    >
+        <CNavSide/>
+    </div>
+    );
 
+  // Fin CategoryMenu
+
+ 
  return(
      <div>
         <Navbar bg="light" variant="light" expand="lg" fixed="top"> 
-        <Navbar.Brand href="/home">
-            <img src="https://riossuarezcarlos.github.io/proyectogrupo4/src/img/logo.png" alt="..."  className="logo"/>
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav"> 
-             <Nav className="mr-auto">     
-                <Link  to="/home" className="pl-2 pt-2">
-                   ..Seguir Comprando..
-                </Link>    
-            </Nav>
-            <Form inline className="search ml-auto">
-                    <FormControl type="text" placeholder="¿Qué estás buscando?" className="input"/>
-                    <Button variant="outline-info">Buscar</Button>
-            </Form>
-            <Nav className="ml-auto">     
-                <h5>{}</h5>
-                <Link  to="" onClick={(e) => handleClickUsr(e)}>
-                    <i className="fas fa-user fa-2x pl-2"></i> 
-                </Link>   
-                <Link to="" onClick={(e) => handleClickCar(e)}>
-                    <i className="fas fa-shopping-cart fa-2x  pl-2"><span>{cantProductos}</span></i>
-                </Link>  
-                <Link to="" onClick={(e) => handleClickConf(e)}>
-                    <i className="fas fa-cog fa-2x  pl-2"></i>
-                </Link>   
-            </Nav>
-        </Navbar.Collapse> 
+  
+          <React.Fragment key={'left'}>
+            <Link to="" onClick={toggleDrawer('left', true)} className="mr-2">
+                      <i className="fas fa-bars fa-2x"></i> 
+            </Link>   
+            <SwipeableDrawer
+              anchor={'left'}
+              open={Navstate['left']}
+              onClose={toggleDrawer('left', false)}
+              onOpen={toggleDrawer('left', true)}
+            >
+              {list('left')}
+            </SwipeableDrawer>
+          </React.Fragment>
+
+          <Navbar.Brand href="/home">
+              <img src="https://riossuarezcarlos.github.io/proyectogrupo4/src/img/logo.png" alt="..."  className="logo"/>
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav"> 
+              <Nav className="mr-auto">     
+                  <Link  to="/home" className="pl-2 pt-2">
+                    ..Seguir Comprando..
+                  </Link>    
+              </Nav>
+              <Form inline className="search ml-auto">
+                      <FormControl type="text" placeholder="¿Qué estás buscando?" className="input"/>
+                      <Button variant="outline-info">Buscar</Button>
+              </Form>
+              <Nav className="ml-auto">     
+                  <Link  to="" onClick={(e) => handleClickUsr(e)}>
+                      <i className="fas fa-user fa-2x pl-2"></i> 
+                  </Link>   
+                  <Link to="" onClick={(e) => handleClickCar(e)}>
+                      <i className="fas fa-shopping-cart fa-2x  pl-2"><span>{cantProductos}</span></i>
+                  </Link>  
+                  <Link to="" onClick={(e) => handleClickConf(e)}>
+                      <i className="fas fa-cog fa-2x  pl-2"></i>
+                  </Link>   
+              </Nav>
+          </Navbar.Collapse> 
         </Navbar> 
                 <Popover
                     id={id}
@@ -163,7 +201,7 @@ const handleCloseConf = () => {
                             {
                                  user !== null ? 
                                   (
-                                    <Fragment>
+                                    <>
                                       <Box color="info.main">Tiene {nroProductos} productos agregados</Box>
                                       {
                                           carrito.map((prod,i) => (
@@ -190,7 +228,7 @@ const handleCloseConf = () => {
                                         : 
                                         (console.log("object"))  
                                       } 
-                                    </Fragment>
+                                    </>
                                   )
                                  : 
                                   (
@@ -208,22 +246,46 @@ const handleCloseConf = () => {
                     open={Boolean(anchorUsr)}
                     onClose={handleCloseUsr}
                 >
-                    <Link to="/login">
-                      <StyledMenuItem onClick={handleCloseUsr}>
-                          <ListItemIcon> 
-                              <i className="fas fa-sign-in-alt fa-2x" />
-                          </ListItemIcon>
-                          <ListItemText primary="Ingresar" />
-                      </StyledMenuItem> 
-                    </Link>
-                    <Link to="/register">
-                      <StyledMenuItem onClick={handleCloseUsr}>
-                          <ListItemIcon>
-                              <i className="fas fa-user fa-2x" />
-                          </ListItemIcon>
-                          <ListItemText primary="Crear Usuario" />
-                      </StyledMenuItem> 
-                    </Link>
+
+                    {
+                      user !== null ? 
+                        (
+                          <>
+                            <Link to="/profile">
+                              <StyledMenuItem onClick={handleCloseUsr}>
+                                  <ListItemIcon> 
+                                      <i className="fas fa-id-badge fa-2x" />
+                                  </ListItemIcon>
+                                  <ListItemText primary="Mi Perfil" />
+                              </StyledMenuItem> 
+                            </Link>
+                          </>
+                        )
+                        : 
+                        (
+                          <>
+                            <Link to="/login">
+                              <StyledMenuItem onClick={handleCloseUsr}>
+                                  <ListItemIcon> 
+                                      <i className="fas fa-sign-in-alt fa-2x" />
+                                  </ListItemIcon>
+                                  <ListItemText primary="Ingresar" />
+                              </StyledMenuItem> 
+                            </Link>
+                            <Link to="/register">
+                              <StyledMenuItem onClick={handleCloseUsr}>
+                                  <ListItemIcon>
+                                      <i className="fas fa-user fa-2x" />
+                                  </ListItemIcon>
+                                  <ListItemText primary="Crear Usuario" />
+                              </StyledMenuItem> 
+                            </Link>
+                          </>
+                        )
+                    }
+
+
+
                 </StyledMenu>
 
                 <StyledMenu

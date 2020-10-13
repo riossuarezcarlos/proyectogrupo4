@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { registro } from '../services/authService';
+import { createUser } from '../services/user';
 
 export default function RegisterView() {
 
@@ -9,8 +10,20 @@ export default function RegisterView() {
     const registrar = (e) => {
         e.preventDefault();
         registro(correo, password)
-        .then((rpta) => {
-            console.log(rpta);
+        .then(async (rpta) => {
+
+            let objUser = {
+                user_dni: '',
+                user_email: correo,
+                user_lastname: '',
+                user_fireid: rpta,
+                user_name: '',
+                user_phone: ''
+            }
+            
+            let user = await createUser(objUser);
+            console.log("Usuario Creado", user);
+            window.history.back(); 
         })
         .catch(error => {
             console.log(error);

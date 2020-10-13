@@ -8,7 +8,7 @@ import './css/CProduct.css'
 
 export default function CProduct(product) {
      
-    const {carrito, anadirProducto} = useContext(CarritoContext);
+    const {anadirProducto} = useContext(CarritoContext);
     const [cantidad, setCantidad] = useState(1)
 
     const anadirAlCarrito = (e) => {
@@ -32,18 +32,18 @@ export default function CProduct(product) {
             timer: 2000
         })
     }
-
-    return (  
-        <Card style={{ width: '17rem', margin: '4px' }}>    
-            <Card.Img variant="top" src={product.product.productImg} alt="..." className="img" />
-            <div className="card-body">
-                <Card.Title>{product.product.productMark}</Card.Title>
-                <Card.Text>{product.product.productName}</Card.Text>
-                <Card.Text className="price">Precio: {product.product.productPrice}</Card.Text>
-                <Count cantidadProductos={cantidad} actualizarCantidad={setCantidad}/>
-                <Link className="btn btn-primary btn-sm m-2" to={`/productdetail/${product.product.id}`}>Ver Detalle</Link>
-                <button className="btn btn-primary btn-sm" onClick={(e) => {anadirAlCarrito(e)}}>Agregar al carrito</button>
+    
+    return (   
+            <div className="card m-1 p-0"> 
+                <Card.Img variant="top" src={product.product.productImg} alt="..." className="img" />
+                <div className="card-body">
+                    <Card.Title>{product.product.productMark}</Card.Title>
+                    <Card.Text>{product.product.productName}</Card.Text>
+                    <Card.Text className="price">Precio: {product.product.productPrice}</Card.Text>
+                    <Count cantidadProductos={cantidad} actualizarCantidad={setCantidad}/>
+                    <Link className="btn btn-primary btn-sm m-2" to={`/productdetail/${product.product.id}`}>Ver Detalle</Link>
+                    <button className="btn btn-primary btn-sm" onClick={(e) => {anadirAlCarrito(e)}}>Agregar al carrito</button>
+                </div>
             </div>
-        </Card> 
     )
 }

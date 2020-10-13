@@ -2,7 +2,8 @@ import fire from '../FirestoreConfig'
  
 const fireDB =  fire.firestore();
  
-const getProductTypes = async (subCategoryId) => {
+const getProductTypesBySubCategory = async (subCategoryId) => {
+  
     let ProductTypes = [];
     await fireDB.collection("producttype").where("subcategoryId","==",subCategoryId).get()
     .then((snapShots) => {
@@ -14,4 +15,4 @@ const getProductTypes = async (subCategoryId) => {
     return ProductTypes;
 }
  
-export { getProductTypes };
+export { getProductTypesBySubCategory };
