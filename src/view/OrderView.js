@@ -3,13 +3,14 @@ import {AuthContext} from '../context/authContext';
 import COrder from '../components/COrder';
 import { getUserbyId } from '../services/user';
 import {getOrderByUser} from '../services/order';
+import { Link } from 'react-router-dom';
 
 let userIdFire = '';
 export default function OrderView() {
     const { user } = useContext(AuthContext);
 
     const [orders, setOrders] = useState([]);
-    
+   
     const obtenerUserId = () => {
         user !== null ? 
          userIdFire= user.uid
@@ -44,7 +45,18 @@ export default function OrderView() {
                 <h2>Mis Pedidos</h2>
                 {
                     orders.map((order, i) => (
-                        <COrder key={i} order={order}/>
+                        <div className="mt-4" key={i}>
+                            <div  className="card cabecera">
+                                <div className="m-2 general">
+                                    Pedido N° {order.id}    |   Fecha de pedido {order.orderDate}| Total {order.orderTotal}
+                                </div>
+                                <div className="m-2"> 
+                                    <Link className="btn btn-outline-primary mr-4" to={`/orderdetail/${order.id}`}>Ver Pedido</Link> 
+                                </div>
+                            </div> 
+                            <COrder key={i} order={order}/>
+                        </div>
+                        
                     ))
                 }
                 

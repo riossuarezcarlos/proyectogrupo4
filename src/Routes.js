@@ -40,7 +40,7 @@ export default function Routes() {
             <Route exact path="/confirmation" component={ConfirmationView} />
             <Route exac path="/car" component={CarritoView} /> 
             <Route exac path="/order" component={OrderView} /> 
-            <Route exac path="/orderdetail" component={OrderDetailView} /> 
+            <Route exac path="/orderdetail/:id" component={OrderDetailView} /> 
             <Route exac path="/search/:subCategoryId/:subCategoryName" component={SearchView} /> 
 
             <Route exact path="/category" component={CategoryView} />
