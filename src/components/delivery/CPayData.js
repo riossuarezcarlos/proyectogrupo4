@@ -73,7 +73,7 @@ export default function CPayData({handleNext}) {
 
     useEffect(() => {
         getData();
-    }, [order])
+    }, [])
   
     return (
         <div className="d-flex justify-content-center">

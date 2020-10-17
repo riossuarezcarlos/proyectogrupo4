@@ -35,7 +35,7 @@ export default function COrder({order}) {
 
     return (
 
-    <div>
+    <div className="mt-4">
             <div  className="card cabecera">
                 <div className="m-2 general">
                     Pedido N° {orderId}    |   Fecha de pedido {orderDate}| Total {orderTotal}
