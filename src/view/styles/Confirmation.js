@@ -50,6 +50,7 @@ const icons = {
 1: <i className="fas fa-id-card fa-lg" />,
 2: <i className="fas fa-truck fa-lg" />,
 3: <i className="fas fa-credit-card fa-lg" />,
+4: <i className="fas fa-clipboard-check fa-lg" />,
 };
 
 return (

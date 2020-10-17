@@ -4,11 +4,9 @@ import { CarritoContext } from '../context/carritoContext';
 
 export default function CarritoView() {
 
-    const { carrito, eliminarProducto } = useContext(CarritoContext); 
-    const [miCarrito, setMiCarrito] = useState([]); 
-
-    const [ subTotal, setSubTotal] = useState([]); 
-
+    const { carrito, eliminarProducto, setOrderGen} = useContext(CarritoContext); 
+    const [miCarrito, setMiCarrito] = useState([]);  
+    const [ subTotal, setSubTotal] = useState([]);  
 
     const calcularTotal = () => { 
         let sub = 0;
@@ -17,6 +15,7 @@ export default function CarritoView() {
         }) 
         sub = redondear(sub);
         setSubTotal(sub);
+        setOrderGen('orderTotal', sub);
     }
 
     const eliminarDelCarrito = (e, product) => { 
@@ -92,7 +91,7 @@ export default function CarritoView() {
             </div>
 
             <div className="d-flex justify-content-center">
-                <Link style={{ width: '300px'}} className="btn btn-primary" to="/confirmation">Confirmar Compra</Link>
+                <Link style={{ width: '300px'}} className="btn btn-primary" to="/sale">Confirmar Compra</Link>
             </div>
         </div>
     )

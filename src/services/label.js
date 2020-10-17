@@ -10,8 +10,18 @@ const getLabels = async () => {
             Labels.push({...label.data(), id: label.id});
         } )
     })
- 
+    
     return Labels;
 }
+
+const createLabel = async (label) => {
+    return await fireDB.collection("label").add(label);
+}
+
+const deleteLabelById = async (labelId) => {
+    return await fireDB.collection("label").doc(labelId).delete();
+}
+
  
-export { getLabels };
+
+export { getLabels, createLabel , deleteLabelById};

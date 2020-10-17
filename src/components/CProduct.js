@@ -13,6 +13,7 @@ export default function CProduct(product) {
 
     const anadirAlCarrito = (e) => {
         e.preventDefault();
+        e.stopPropagation();
         let productoAnadir = {
             productId: product.product.id,
             productName: product.product.productName, 
@@ -20,7 +21,7 @@ export default function CProduct(product) {
             productMark: product.product.productMark, 
             productImg: product.product.productImg, 
             productCant: cantidad, 
-            productTotal: product.product.productPrice * cantidad
+            productTotal: product.product.productPrice * cantidad 
         }
  
         anadirProducto(productoAnadir);
@@ -41,8 +42,20 @@ export default function CProduct(product) {
                     <Card.Text>{product.product.productName}</Card.Text>
                     <Card.Text className="price">Precio: {product.product.productPrice}</Card.Text>
                     <Count cantidadProductos={cantidad} actualizarCantidad={setCantidad}/>
-                    <Link className="btn btn-primary btn-sm m-2" to={`/productdetail/${product.product.id}`}>Ver Detalle</Link>
-                    <button className="btn btn-primary btn-sm" onClick={(e) => {anadirAlCarrito(e)}}>Agregar al carrito</button>
+                    <Link className="btn btn-primary btn-sm m-2" to={`/productdetail/${product.product.id}`}>Ver Detalle</Link> 
+                     
+                    {
+                        product.product.productStock !== 0 
+                        ?
+                        (
+                            <button className="btn btn-primary btn-sm" onClick={(e) => {anadirAlCarrito(e)}}>Agregar al carrito</button>
+                        )
+                        : 
+                        (
+                            <button className="btn btn-danger btn-sm">No hay stock</button>
+                        )
+                    }
+                    
                 </div>
             </div>
     )

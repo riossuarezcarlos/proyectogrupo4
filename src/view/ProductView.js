@@ -1,4 +1,4 @@
-import React, {useState, useEffect, Fragment} from 'react'
+import React, {useState, useEffect} from 'react'
 import ListProduct from '../components/crud/ListProduct';
 import CLoading from "../components/CLoading";
 import { getProducts, deleteProductById } from '../services/product';
@@ -30,6 +30,7 @@ export default function ProductView() {
             console.log("Eliminar")
             setCargando(true); //comienzo a cargar porque mi peticion demora
             const productoEliminado = await deleteProductById(id); //borro, va a demorar
+            console.log(productoEliminado)
             getProduct();
         }
 
@@ -42,7 +43,7 @@ export default function ProductView() {
     }, [])
         
     return (
-        <Fragment>
+        <div>
             {
                 cargando ? (
                     <CLoading />
@@ -57,7 +58,7 @@ export default function ProductView() {
                 )
 
             }
-        </Fragment> 
+        </div> 
     )
 }
  

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext,  Fragment} from 'react' 
+import React, { useState, useEffect, useContext } from 'react' 
 import { getProductbyId } from '../services/product' 
 import { CarritoContext } from '../context/carritoContext'
 import CLoading from '../components/CLoading'
@@ -48,7 +48,7 @@ export default function DetailView(props) {
     }, []);
 
     return ( 
-        <Fragment>
+        <div>
             {
                 cargando === true ?
                 ( 
@@ -65,12 +65,24 @@ export default function DetailView(props) {
                             <h1>{miProducto.productName}</h1>
                             <h2>Precio: {miProducto.productPrice}</h2> 
                             <Count cantidadProductos={cantidad} actualizarCantidad={setCantidad}/>
-                            <button className="btn btn-primary btn-sm" onClick={() => {anadirAlCarrito()}}>Agregar al carrito</button>
+
+                            {
+                                miProducto.productStock !== 0 
+                                ?
+                                (
+                                    <button className="btn btn-primary btn-sm" onClick={() => {anadirAlCarrito()}}>Agregar al carrito</button>
+                                )
+                                : 
+                                (
+                                    <button className="btn btn-danger btn-sm">No hay stock</button>
+                                )
+                            }
+                            
                         </div>
                     </div>
                 </div> 
                 )
             }
-        </Fragment>   
+        </div>   
     )
 }

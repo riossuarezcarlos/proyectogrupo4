@@ -26,11 +26,17 @@ const getProductbyId = async (productId) => {
     return products;
 }
 
-const searchProducts = async (producttypes) => {
+const searchProducts = async (producttypes, desde, hasta) => {
+ 
     let products = [];
-    await fireDB.collection("product").where("producttypeId","in",producttypes).get()
+  
+    await fireDB.collection("product")
+    .where("producttypeId","in",producttypes)
+    .where("productPrice",">=", parseFloat(desde))
+    .where("productPrice","<=", parseFloat(hasta))
+    .get()
     .then((snapShots) => {
-        snapShots.docs.map( (product) => {
+        snapShots.docs.map( (product) => { 
             products.push({...product.data(), id: product.id});
         } )
     }) 
@@ -46,6 +52,7 @@ const getProductsByLabel = async (labelCod) => {
             products.push({...product.data(), id: product.id});
         } )
     }) 
+
     return products; 
 }
 

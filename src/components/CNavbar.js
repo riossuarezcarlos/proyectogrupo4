@@ -17,13 +17,17 @@ import { withStyles } from '@material-ui/core/styles';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';   
+import ListItemText from '@material-ui/core/ListItemText';    
 
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import clsx from 'clsx'; 
 
 
 import CNavSide from './CNavSide';
+
+import { salir } from "../services/authService";
+import Swal from "sweetalert2";
+import { useHistory } from "react-router-dom";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -66,14 +70,16 @@ const useStyles = makeStyles((theme) => ({
 export default function CNavbar(){
 
  const classes = useStyles();
+ const history = useHistory();
+
  const [anchorCar, setAnchorCar] = useState(null);
  const [anchorUsr, setAnchorUsr] = useState(null);
  const [anchorConf, setAnchorConf] = useState(null);
  
  const [cantProductos, setCantidadProductos] = useState("")
  const [nroProductos, setNroProductos] = useState(0)
- const { carrito } = useContext(CarritoContext); 
- const { user } = useContext(AuthContext); 
+ const { carrito, busqueda, setBusqueda } = useContext(CarritoContext); 
+ const { user, setAuthUser } = useContext(AuthContext);
 
  const { Navstate, classesCat, toggleDrawer } = useContext(NavSideContext); 
  
@@ -137,12 +143,44 @@ const handleCloseConf = () => {
 
   // Fin CategoryMenu
 
+
+  const logout = () => {
+    Swal.fire({
+      icon: "warning",
+      title: "Desea salir?",
+      showConfirmButton: true,
+      confirmButtonText: "Si, Salir",
+      showCancelButton: true,
+    }).then((resultSwal) => {
+      if (resultSwal.isDismissed === true) {
+        //si es que doy click a cancelar no haga nada
+        return;
+      }
+      salir().then(() => {
+        setAuthUser(null);
+        Swal.fire({
+          icon: "success",
+          title: "Se deslogueo exitosamente",
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(() => {
+          history.push("/");
+        });
+      });
+    });
+    //---------------------
+  };
+
+  const setearBusqueda = (value) => {
+    setBusqueda(value);
+  }
+
  
  return(
      <div>
         <Navbar bg="light" variant="light" expand="lg" fixed="top"> 
   
-          <React.Fragment key={'left'}>
+          <Fragment key={'left'}>
             <Link to="" onClick={toggleDrawer('left', true)} className="mr-2">
                       <i className="fas fa-bars fa-2x"></i> 
             </Link>   
@@ -154,7 +192,7 @@ const handleCloseConf = () => {
             >
               {list('left')}
             </SwipeableDrawer>
-          </React.Fragment>
+          </Fragment>
 
           <Navbar.Brand href="/home">
               <img src="https://riossuarezcarlos.github.io/proyectogrupo4/src/img/logo.png" alt="..."  className="logo"/>
@@ -167,8 +205,8 @@ const handleCloseConf = () => {
                   </Link>    
               </Nav>
               <Form inline className="search ml-auto">
-                      <FormControl type="text" placeholder="¿Qué estás buscando?" className="input"/>
-                      <Button variant="outline-info">Buscar</Button>
+                      <FormControl type="text" placeholder="¿Qué estás buscando?" className="input" onChange={(e) => {setearBusqueda(e.target.value)}}/>
+                      
               </Form>
               <Nav className="ml-auto">     
                   <Link  to="" onClick={(e) => handleClickUsr(e)}>
@@ -201,34 +239,38 @@ const handleCloseConf = () => {
                             {
                                  user !== null ? 
                                   (
-                                    <>
+                                    <div>
                                       <Box color="info.main">Tiene {nroProductos} productos agregados</Box>
-                                      {
-                                          carrito.map((prod,i) => (
-                                              <Card style={{ width: '18rem', marginTop: '4px'}} key={i} className="d-flex justify-content-center flex-row">    
-                                                  <div className="d-flex align-items-center">
-                                                  <Card.Img variant="center" src={prod.productImg} alt="..." className="imgpopover" />
-                                                  </div>
-                                                  <Card.Body className="pt-1 pb-1 pl-2 pr-2 "> 
-                                                      <h5 className="marca">{prod.productMark}</h5> 
-                                                      <h5 className="texto">{prod.productName}</h5>
-                                                      <h5 className="texto">Precio: {prod.productPrice}</h5>
-                                                      <h5 className="texto">Cantidad:{prod.productCant}</h5>                    
-                                                  </Card.Body>
-                                              </Card> 
-                                          ))
-                                      } 
                                       
-                                      {nroProductos != 0 ? 
+                                          {
+                                              carrito.map((prod,i) => (
+                                                  <Card style={{ width: '18rem', marginTop: '4px'}} key={i} className="d-flex justify-content-center flex-row">    
+                                                      <div className="d-flex align-items-center">
+                                                      <Card.Img variant="center" src={prod.productImg} alt="..." className="imgpopover" />
+                                                      </div>
+                                                      <Card.Body className="pt-1 pb-1 pl-2 pr-2 "> 
+                                                          <h5 className="marca">{prod.productMark}</h5> 
+                                                          <h5 className="texto">{prod.productName}</h5>
+                                                          <h5 className="texto">Precio: {prod.productPrice}</h5>
+                                                          <h5 className="texto">Cantidad:{prod.productCant}</h5>                    
+                                                      </Card.Body>
+                                                  </Card> 
+                                              ))
+                                          }  
+
+                                      {
+                                      nroProductos != 0 ? 
                                         (
                                           <Nav.Link>
                                             <Link className="btn btn-primary btn-block mt-2" to="/car" onClick={handleCloseCar}>Procesar Compra</Link>  
                                           </Nav.Link>
+                                        ) 
+                                        :
+                                        (
+                                          <p></p>
                                         )
-                                        : 
-                                        (console.log("object"))  
                                       } 
-                                    </>
+                                    </div>
                                   )
                                  : 
                                   (
@@ -246,7 +288,7 @@ const handleCloseConf = () => {
                     open={Boolean(anchorUsr)}
                     onClose={handleCloseUsr}
                 >
-
+                  <div>
                     {
                       user !== null ? 
                         (
@@ -257,6 +299,22 @@ const handleCloseConf = () => {
                                       <i className="fas fa-id-badge fa-2x" />
                                   </ListItemIcon>
                                   <ListItemText primary="Mi Perfil" />
+                              </StyledMenuItem> 
+                            </Link>
+                            <Link to="/order">
+                              <StyledMenuItem onClick={handleCloseUsr}>
+                                  <ListItemIcon> 
+                                      <i className="fas fa-truck fa-2x" />
+                                  </ListItemIcon>
+                                  <ListItemText primary="Mis Pedidos" />
+                              </StyledMenuItem> 
+                            </Link>
+                            <Link to="">
+                              <StyledMenuItem onClick={()=>{logout()}}>
+                                  <ListItemIcon> 
+                                      <i className="fas fa-sign-out-alt fa-2x" />
+                                  </ListItemIcon>
+                                  <ListItemText primary="Salir" />
                               </StyledMenuItem> 
                             </Link>
                           </>
@@ -282,10 +340,8 @@ const handleCloseConf = () => {
                             </Link>
                           </>
                         )
-                    }
-
-
-
+                    } 
+                  </div>
                 </StyledMenu>
 
                 <StyledMenu
@@ -303,6 +359,48 @@ const handleCloseConf = () => {
                           <ListItemText primary="Producto" />
                       </StyledMenuItem> 
                     </Link> 
+
+                    <Link to="/category">
+                      <StyledMenuItem onClick={handleCloseConf}>
+                          <ListItemIcon>
+                          <i className="fas fa-boxes fa-2x"></i>
+                          </ListItemIcon>
+                          <ListItemText primary="Categoria" />
+                      </StyledMenuItem> 
+                    </Link> 
+
+                      <Link to="/subcategory">
+                      <StyledMenuItem onClick={handleCloseConf}>
+                          <ListItemIcon>
+                          <i className="fas fa-cubes fa-2x"></i>
+                              {/* <i className="fas fa-barcode fa-2x" /> */}
+                          </ListItemIcon>
+                          <ListItemText primary="SubCategoria" />
+                      </StyledMenuItem> 
+                    </Link> 
+
+                    
+                    <Link to="/tipo">
+                      <StyledMenuItem onClick={handleCloseConf}>
+                          <ListItemIcon>
+                        
+                              <i className="fas fa-clipboard fa-2x"></i>
+                             
+                          </ListItemIcon>
+                          <ListItemText primary="Tipo" />
+                      </StyledMenuItem> 
+                    </Link> 
+
+                    <Link to="/label">
+                      <StyledMenuItem onClick={handleCloseConf}>
+                          <ListItemIcon> 
+                              <i className="fas fa-tags fa-2x"></i>
+                             
+                          </ListItemIcon>
+                          <ListItemText primary="Etiqueta" />
+                      </StyledMenuItem> 
+                    </Link> 
+                    
                 </StyledMenu>
 
      </div>

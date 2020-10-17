@@ -25,4 +25,16 @@ const ingresar = (email, password) => {
     })
 }
 
-export { registro, ingresar }
+
+const salir = () => {
+    return new Promise ((resolve, reject) => {
+      fire.auth().signOut().then(()=>{
+        resolve("El usuario se deslogueo");
+      }).catch((error) => {
+        reject(error);
+      });
+    })
+  }
+
+
+export { registro, ingresar, salir }

@@ -10,14 +10,16 @@ import Swal from 'sweetalert2';
 import { useHistory } from  'react-router-dom';
 
 import {storage} from '../../FirestoreConfig';
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 let imagenProducto;
 
 export default function CreateProduct(){
 
+  
+
     const history = useHistory();
-    let { register, handleSubmit, errors} = useForm();
+    let { control, register, handleSubmit, errors} = useForm();
 
     const [labels, setLabels] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -32,13 +34,16 @@ export default function CreateProduct(){
     }
 
     const manejarSubmit  = async (data) => {    
-        const refStorage = storage.ref(`productos/${imagenProducto}`);
+
+        let product = {...data, productPrice: parseFloat(data.productPrice), productStock: parseFloat(data.productStock)}
+    
+       const refStorage = storage.ref(`productos/${imagenProducto}`);
 
         subirImagen(imagenProducto, refStorage)
         .then(async (urlImagen) => {
             //Crear el producto
             console.log("urlImagen", urlImagen);
-            await createProduct({...data, productImg: urlImagen}); 
+            await createProduct({...product, productImg: urlImagen}); 
 
             Swal.fire({
                 icon: "success",
@@ -260,14 +265,15 @@ export default function CreateProduct(){
                                         )
                                     }
                                 </div>
-                                
+                                 
                                 <div className="form-group">
                                     <label htmlFor="productPrice">Precio Producto:</label>
+ 
                                     <input
                                     type="number"
                                     className="form-control"
                                     id="productPrice"
-                                    name="productPrice"
+                                    name="productPrice" 
                                     ref={register({required:true,min:1})}
                                     />
                                     {errors.productPrice && errors.productPrice.type === 'required' && (
@@ -275,6 +281,23 @@ export default function CreateProduct(){
                                     )}
                                     {errors.productPrice && errors.productPrice.type === 'min' && (
                                     <small className="text-danger font-weight-bold">El precio del producto no puede ser menor a 1</small>
+                                    )} 
+                                </div>
+
+                                <div className="form-group">
+                                    <label htmlFor="productPrice">Stock Producto:</label>
+                                    <input
+                                    type="number"
+                                    className="form-control"
+                                    id="productStock"
+                                    name="productStock"
+                                    ref={register({required:true,min:1})}
+                                    />
+                                    {errors.productStock && errors.productStock.type === 'required' && (
+                                    <small className="text-danger font-weight-bold">Debe ingresar el Stock del producto</small>
+                                    )}
+                                    {errors.productStock && errors.productStock.type === 'min' && (
+                                    <small className="text-danger font-weight-bold">El stock del producto no puede ser menor a 1</small>
                                     )}
                                 </div>
                         

@@ -3,7 +3,6 @@ import CProduct from './CProduct';
 import { getProductsByLabel } from '../services/product';
 
 export default function CCLabel({label}) {
- 
 
     const [productos, setProductos] = useState([]);
 
@@ -14,7 +13,7 @@ export default function CCLabel({label}) {
 
     useEffect(() => {
         getProducts();
-    }) 
+    },[label]) 
 
     return (
         <div>
