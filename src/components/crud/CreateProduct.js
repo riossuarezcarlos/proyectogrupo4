@@ -12,6 +12,8 @@ import { useHistory } from  'react-router-dom';
 import {storage} from '../../FirestoreConfig';
 import { Controller, useForm } from "react-hook-form";
 
+import { v4 as uuidv4 } from 'uuid';
+
 let imagenProducto;
 
 export default function CreateProduct(){
@@ -36,8 +38,8 @@ export default function CreateProduct(){
     const manejarSubmit  = async (data) => {    
 
         let product = {...data, productPrice: parseFloat(data.productPrice), productStock: parseFloat(data.productStock)}
-    
-       const refStorage = storage.ref(`productos/${imagenProducto}`);
+        let uuid =  uuidv4();
+       const refStorage = storage.ref(`productos/${uuid}`);
 
         subirImagen(imagenProducto, refStorage)
         .then(async (urlImagen) => {

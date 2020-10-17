@@ -132,7 +132,7 @@ export default function CreateType(){
                                     className="form-control"
                                     id="producttypeName"
                                     name="producttypeName"
-                                    ref={register({required:true, minLength:2, maxLength:20})}
+                                    ref={register({required:true, minLength:2, maxLength:30})}
                                     />
                                     {errors.producttypeName && errors.producttypeName.type === 'required' && (
                                     <small className="text-danger font-weight-bold">Debe ingresar el nombre del tipo</small>
