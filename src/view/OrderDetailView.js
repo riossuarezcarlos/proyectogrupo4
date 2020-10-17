@@ -33,13 +33,12 @@ export default function OrderDetailView(props) {
                             </div> 
                         </div> 
                         <div className="card d-flex flex-row">
-                            <div>
+                            <div style={{marginLeft:'10px', marginRight: '30px'}}>
                                 <h5>Datos del usuario</h5>
                                 <p>{order.user_name}</p>
                                 <p>{order.user_email}</p>
                                 <p>{order.user_phone}</p>  
                             </div> 
-
                             <div>
                                 <h5>Datos de la entrega</h5>
                                 <p>{order.address_name}</p>

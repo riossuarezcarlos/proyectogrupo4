@@ -74,7 +74,7 @@ export default function ConfirmationView() {
                         <p>Esperamos volver a verte pronto.</p>
                     </div>
 
-                    <Link className="btn btn-primary btn-block" to="/home">Finalizar Compra</Link>
+                    <Link className="btn btn-primary btn-block" to="/home">Seguir Comprando</Link>
                     
                 </div>
             </div>
