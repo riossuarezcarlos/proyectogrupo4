@@ -215,9 +215,22 @@ const handleCloseConf = () => {
                   <Link to="" onClick={(e) => handleClickCar(e)}>
                       <i className="fas fa-shopping-cart fa-2x  pl-2"><span>{cantProductos}</span></i>
                   </Link>  
-                  <Link to="" onClick={(e) => handleClickConf(e)}>
-                      <i className="fas fa-cog fa-2x  pl-2"></i>
-                  </Link>   
+
+
+                             {
+                                 user !== null ? 
+                                  (
+                                    <Link to="" onClick={(e) => handleClickConf(e)}>
+                                      <i className="fas fa-cog fa-2x  pl-2"></i>
+                                    </Link>   
+                                  )
+                                 : 
+                                  (
+                                    <p></p>
+                                  )
+                            }  
+
+
               </Nav>
           </Navbar.Collapse> 
         </Navbar> 

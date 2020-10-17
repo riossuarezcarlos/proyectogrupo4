@@ -32,7 +32,7 @@ export default function OrderDetailView(props) {
                                 Pedido N° {order.id}    |   Fecha de pedido {order.orderDate}| Total {order.orderTotal}
                             </div> 
                         </div> 
-                        <div className="card d-flex flex-row justify-content-center">
+                        <div className="card d-flex flex-row">
                             <div>
                                 <h5>Datos del usuario</h5>
                                 <p>{order.user_name}</p>
