@@ -25,12 +25,14 @@ export default function TypeView() {
             showCancelButton: true,
         }).then( async (resultSwal) => {
             if(resultSwal.isDismissed === true){ //si es que doy click a cancelar no haga nada
-                console.log("cancelar")
+                console.log("cancelar");
+                return;
             }
             console.log("Eliminar")
             setCargando(true); //comienzo a cargar porque mi peticion demora
             const productoEliminado = await deleteTypeById(id); //borro, va a demorar
             getType();
+            
         }
 
         )

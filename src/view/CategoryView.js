@@ -25,7 +25,8 @@ export default function CategoryView() {
             showCancelButton: true,
         }).then( async (resultSwal) => {
             if(resultSwal.isDismissed === true){ //si es que doy click a cancelar no haga nada
-                console.log("cancelar")
+                console.log("cancelar");
+                return;
             }
             console.log("Eliminar")
             setCargando(true); //comienzo a cargar porque mi peticion demora

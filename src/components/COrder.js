@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {getOrderDetailByOrder } from '../services/orderdetail';
+import OrderDetailView from '../view/OrderDetailView';
 import './css/COrder.css'
 
 export default function COrder({order}) {
@@ -33,6 +34,15 @@ export default function COrder({order}) {
         getProducts();
     }, [orderId])
 
+
+    const showDetail = (order) =>{
+        return(
+            <OrderDetailView order={order}/>
+        )
+    }
+
+
+
     return (
 
     <div className="mt-4">
@@ -41,9 +51,9 @@ export default function COrder({order}) {
                     Pedido N° {orderId}    |   Fecha de pedido {orderDate}| Total {orderTotal}
                 </div>
                 <div className="m-2">
-                    <button className="btn btn-outline-primary mr-4">Ver Pedido</button>
+                    <button className="btn btn-outline-primary mr-4" onClick={() => {showDetail(order)}}>Ver Pedido</button>
                 </div>
-            </div>
+             </div>
             <div  className="card mb-4"> 
                 {
                     products.map((prod,i) => (
