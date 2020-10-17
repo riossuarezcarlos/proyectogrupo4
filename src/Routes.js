@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {Route} from 'react-router-dom';
+import {Route, Redirect} from 'react-router-dom';
 
 import HomeView from './view/HomeView';
 import ProductView from './view/ProductView';
